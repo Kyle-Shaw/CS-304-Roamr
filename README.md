@@ -14,3 +14,6 @@ How to run the project:
   - Current expo SDK 50 is outdated so a custom development build for expo is needed: 
     - npx expo install expo-dev-client
     - npx expo run:android
+
+  After first setup:
+    -  npm start

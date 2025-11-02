@@ -6,3 +6,11 @@ It can also be as simple as walking your dog, a local fishing trip, bike rides, 
 
 Original Contributors:
 Cam Demarco, Brandon Martel, Kyle Shaw
+
+How to run the project:
+  - Create a fork
+  - Install dependencies
+    - npm install
+  - Current expo SDK 50 is outdated so a custom development build for expo is needed: 
+    - npx expo install expo-dev-client
+    - npx expo run:android

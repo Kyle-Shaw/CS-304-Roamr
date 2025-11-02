@@ -15,5 +15,5 @@ How to run the project:
     - npx expo install expo-dev-client
     - npx expo run:android
 
-  After first setup:
-    - npm start
+After first setup:
+  - npm start

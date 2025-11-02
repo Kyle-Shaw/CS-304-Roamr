@@ -16,4 +16,4 @@ How to run the project:
     - npx expo run:android
 
   After first setup:
-    -  npm start
+    - npm start

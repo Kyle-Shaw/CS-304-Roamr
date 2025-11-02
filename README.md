@@ -1,3 +1,4 @@
+# Roamr
 Roamr is a mockup social media app developed for a class project. 
 
 Roamr is a social media app that is meant to share interesting and fun experiences about anything outdoors or nature related. 
@@ -7,7 +8,13 @@ It can also be as simple as walking your dog, a local fishing trip, bike rides, 
 Original Contributors:
 Cam Demarco, Brandon Martel, Kyle Shaw
 
-How to run the project:
+## Prerequisites
+
+- **Node.js**: 18.x or 20.x
+- **Java JDK**: 17 (required for Android builds)
+- **Android Studio**: Latest version with Android SDK
+
+## Setup to run the project
   - Create a fork
   - Install dependencies
     - npm install

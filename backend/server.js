@@ -13,8 +13,7 @@ const PostRoutes = require('./api/post')
 app.use('/api/user', UserRoutes)
 app.use('/api/post', PostRoutes)
 
-
-
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}...`);
 });
+

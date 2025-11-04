@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { useNavigation, CommonActions } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
+import api from "../api"
 
 const RegisterButton = () => {
     const navigation = useNavigation();
@@ -25,7 +25,7 @@ const Login = ({ navigation }) => {
   const handleLogin = async () => {
     try {
       // Send login request to backend
-      const response = await axios.post('http://10.0.0.10:5001/api/user/login', {
+      const response = await api.post('/api/user/login', {
         username,
         password
       });

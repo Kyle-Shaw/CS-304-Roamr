@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
-import axios from 'axios';
+import api from "../api"
 
 const Register = ({ navigation }) => {
   const [firstName, setFirstName] = useState('');
@@ -12,7 +12,7 @@ const Register = ({ navigation }) => {
 
   const handleCreateAccount = async () => {
     try {
-      const response = await axios.post('http://10.0.0.10:5001/api/user/register', {
+      const response = await api.post('/api/user/register', {
         firstName,
         lastName,
         username,

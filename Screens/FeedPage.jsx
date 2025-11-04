@@ -3,7 +3,7 @@ import { View, Text, FlatList, Image, TouchableOpacity, StyleSheet, Dimensions, 
 import Carousel from 'react-native-reanimated-carousel';
 import Icon from 'react-native-vector-icons/AntDesign';
 import AsyncStorage from '@react-native-async-storage/async-storage'; 
-import axios from 'axios';
+import api from "../api"
 
 
 const FeedPage = () => {
@@ -32,7 +32,7 @@ const FeedPage = () => {
 
   const fetchPosts = async () => {
     try {
-      const response = await axios.get('http://localhost:5001/api/post/posts');
+      const response = await api.get('/api/post/posts');
       setPosts(response.data.posts);
     } catch (error) {
       console.error('Error fetching posts:', error);
@@ -51,8 +51,8 @@ const FeedPage = () => {
         'Content-Type': 'application/json',
       };
       // Send a POST request to like the post
-      await axios.post(
-        `http://localhost:5001/api/post/posts/${postId}/like`,
+      await api.post(
+        `/api/post/posts/${postId}/like`,
         {},
         {
           headers: headers
@@ -131,7 +131,7 @@ const renderPost = ({ item }) => {
           height={Dimensions.get('window').width / 1.6}
           autoPlay={false}
           // image
-          data={item.mediaFile.map(uploads => ({ uri: `http://localhost:5001/uploads/${uploads}` }))} // Construct image URIs
+          data={item.mediaFile.map(uploads => ({ uri: `http://10.0.0.85:5001/uploads/${uploads}` }))} // Construct image URIs
           scrollAnimationDuration={800}
           gestureActiveMultiplier={10} // Adjust this value (default is 1)
           gestureVelocityImpact={0.1} // Adjust this value (default is 0.1)

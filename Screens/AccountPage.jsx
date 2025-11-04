@@ -15,7 +15,7 @@ import { StatusBar } from "expo-status-bar";
 import { TabView, TabBar, SceneMap } from "react-native-tab-view";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as ImagePicker from "expo-image-picker";
-import axios from "axios";
+import api from "../api"
 //import CustomHeader from "../Components/CustomHeader";
 
 const PhotosRoutes = () => (
@@ -67,7 +67,7 @@ const AccountPage = () => {
     AsyncStorage.getItem('token')
       .then(token => {
         // Make a request to the server endpoint with the token in the Authorization header
-        axios.get('http://10.0.0.10:5001/api/user', {
+        api.get('/api/user', {
           headers: {
             Authorization: `Bearer ${token}` // Include the token in the Authorization header
           }
@@ -123,7 +123,8 @@ const AccountPage = () => {
   const fetchUserImages = async (token) => {
     try {
       // Fetch profile picture
-      const profileResponse = await axios.get(`http://10.0.0.10:5001/api/user/profile-picture`, {
+      console.log("Base URL raw:", JSON.stringify(api.defaults.baseURL));
+      const profileResponse = await api.get(`/api/user/profile-picture`, {
         headers: {
           'authorization': token,
         },
@@ -137,7 +138,7 @@ const AccountPage = () => {
       }
 
       // Fetch background picture
-      const backgroundResponse = await axios.get(`http://10.0.0.10:5001/api/user/background-picture`, {
+      const backgroundResponse = await api.get(`/api/user/background-picture`, {
         headers: {
           'authorization': token,
         },
@@ -204,7 +205,7 @@ const AccountPage = () => {
 
       console.log(formData);
 
-      const response = await axios.post(`http://10.0.0.10:5001/api/user/upload-profile-picture`, formData, {
+      const response = await api.post(`/api/user/upload-profile-picture`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           'authorization': token,
@@ -235,7 +236,7 @@ const AccountPage = () => {
         });
       }
 
-      const response = await axios.post(`http://10.0.0.10:5001/api/user/upload-background-picture`, formData, {
+      const response = await api.post(`/api/user/upload-background-picture`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           'authorization': token,
@@ -281,7 +282,7 @@ const AccountPage = () => {
       <StatusBar backgroundColor="#808080" />
       <View style={{ position: 'relative', flex: 1 }}>
         <Image
-          source={backgroundPictureUrl ? { uri: `http://10.0.0.10:5001/uploads/${backgroundPictureUrl}` } : { uri: backgroundImageUri }}
+          source={backgroundPictureUrl ? { uri: `http://10.0.0.85:5001/uploads/${backgroundPictureUrl}` } : { uri: backgroundImageUri }}
           resizeMode="cover"
           style={{
             height: 228,
@@ -329,7 +330,7 @@ const AccountPage = () => {
             borderWidth: 2,
             marginTop: -90,
           }}
-          source={profilePictureUrl ? { uri: `http://10.0.0.10:5001/uploads/${profilePictureUrl}` } : { uri: profileImageUri }}
+          source={profilePictureUrl ? { uri: `http://10.0.0.85:5001/uploads/${profilePictureUrl}` } : { uri: profileImageUri }}
           resizeMode="contain"
         />
 

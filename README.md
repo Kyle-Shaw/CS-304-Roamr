@@ -24,3 +24,4 @@ Cam Demarco, Brandon Martel, Kyle Shaw
 
 After first setup:
   - npm start
+  - npm run server

@@ -3,6 +3,7 @@ import FeedPage from './Screens/FeedPage';
 import UploadPage from './Screens/UploadPage';
 import Login from './Screens/Login';
 import Register from './Screens/Register';
+import Logo from './Components/logo';
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, Switch, Button, Alert, TouchableOpacity, Image } from 'react-native';
 import { NavigationContainer, useTheme, useNavigation, CommonActions } from '@react-navigation/native';
@@ -13,10 +14,9 @@ import { primaryColor } from './Components/Color';
 import { useDarkMode  } from './Components/Themes';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Logo = () => {
+/* const Logo = () => {
   const theme = useTheme();
   const logoSource = 'https://i.ibb.co/gjfLCDQ/Roamr-Logo.png';
-  console.log('Logo Source:', logoSource);
   return (
     <Image
       source={{uri: logoSource}}
@@ -28,11 +28,11 @@ const Logo = () => {
       resizeMode="contain"
     />
   );
-};
+}; */
 
 const Tab = createBottomTabNavigator();
 
-const TabNavigator = () => {
+const MainNavigator = () => {
   const theme = useTheme();
   return (
     <Tab.Navigator
@@ -82,57 +82,8 @@ const TabNavigator = () => {
 const Stack = createStackNavigator();
 export default function App() {
   const { isDarkMode, toggleDarkMode, switchThumbColor, switchTrackColor, theme } = useDarkMode();
-
-  return (
-    <NavigationContainer theme={theme}>
-      <View style={{ flex: 1 }}>
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Main"
-            component={MainScreen}
-            options={() => ({
-              headerLeft: () => <Logo />,
-              headerTitle: 'Roamr',
-              headerStyle: {
-                backgroundColor: primaryColor,
-              },
-              headerTintColor: 'white',
-            })}
-          />
-          <Stack.Screen
-            name="Login"
-            component={Login}
-            options={() => ({
-              headerTitle: 'Login',
-              headerStyle: {
-                backgroundColor: primaryColor,
-              },
-              headerTintColor: 'white',
-            })}
-          />
-          <Stack.Screen
-            name="Register"
-            component={Register}
-            options={() => ({
-              headerTitle: 'Register',
-              headerStyle: {
-                backgroundColor: primaryColor,
-              },
-              headerTintColor: 'white',
-            })}
-          />
-        </Stack.Navigator>
-      </View>
-    </NavigationContainer>
-  );
-}
-
-const MainScreen = () => {
+  
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    checkLoginStatus();
-  }, []);
 
   const checkLoginStatus = async () => {
     try {
@@ -143,31 +94,57 @@ const MainScreen = () => {
     }
   };
 
+  useEffect(() => {
+    checkLoginStatus();
+  }, []);
+
   return (
-    <Stack.Navigator>
-      {isLoggedIn ? (
-        <Stack.Screen
-          name="TabNavigator"
-          component={TabNavigator}
-          initialParams={{ isLoggedIn: false }}
-          options={{
-            headerTitle: '',
-            headerShown: false,
-            headerStyle: {
-              borderBottomWidth: 0,
-              backgroundColor: 'transparent',
-            }
-          }}
-        />
-      ) : (
-        <Stack.Screen
-          name="Login"
-          component={Login}
-          options={{
-            headerShown: false,
-          }}
-        />
-      )}
-    </Stack.Navigator>
+    <NavigationContainer theme={theme}>
+      <View style={{ flex: 1 }}>
+        <Stack.Navigator>
+          {isLoggedIn ? (
+            <>
+              <Stack.Screen
+                name="Home"
+                component={MainNavigator}
+                options={() => ({
+                  headerLeft: () => <Logo />,
+                  headerTitle: 'Roamr',
+                  headerStyle: {
+                    backgroundColor: primaryColor,
+                  },
+                  headerTintColor: 'white',
+                })}
+              />
+            </>
+          ) : (
+            <>
+              <Stack.Screen
+                name="Login"
+                component={Login}
+                options={{
+                  headerTitle: 'Login',
+                  headerStyle: {
+                    backgroundColor: primaryColor,
+                  },
+                  headerTintColor: 'white',
+                }}
+              />
+              <Stack.Screen
+                name="Register"
+                component={Register}
+                options={{
+                  headerTitle: 'Register',
+                  headerStyle: {
+                    backgroundColor: primaryColor,
+                  },
+                  headerTintColor: 'white',
+                }}
+              />
+            </>
+          )}
+        </Stack.Navigator>
+      </View>
+    </NavigationContainer>
   );
-};
+}

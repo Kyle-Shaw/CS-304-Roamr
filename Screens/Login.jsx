@@ -3,6 +3,8 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'reac
 import { useNavigation, CommonActions } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from "../api"
+import { useAuth } from '../Context/AuthContext';
+import { sign } from 'jsonwebtoken';
 
 const RegisterButton = () => {
     const navigation = useNavigation();
@@ -22,51 +24,6 @@ const Login = ({ navigation }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = async () => {
-    try {
-      // Send login request to backend
-      const response = await api.post('/api/user/login', {
-        username,
-        password
-      });
-  
-      // Check if response is successful
-      if (response && response.data && response.data.token) {
-        // Store token securely
-        await AsyncStorage.setItem('token', response.data.token);
-
-        Alert.alert(`Successfully logged in as ${username}`);
-        
-        // Navigate to another screen
-        navigation.dispatch(
-        CommonActions.reset({
-          index: 0,
-          routes: [{ name: 'Main' }],
-        })
-      );
-      } else {
-        // Handle invalid response
-        console.error('Invalid response:', response);
-        Alert.alert('Error', 'Invalid response from server');
-      }
-    } catch (error) {
-      console.error('Error logging in:', error);
-      if (error.response) {
-        // Server responded with an error status code
-        Alert.alert('Error', error.response.data.message || 'Failed to login. Please try again later.');
-      } else if (error.request) {
-        // The request was made but no response was received
-        Alert.alert('Error', 'Network Error. Please check your internet connection.');
-      } else {
-        // Something else happened
-        Alert.alert('Error', 'An unexpected error occurred. Please try again later.');
-      }
-    }
-  };
-
-  const handleCreateAccount = () => {
-  };
-
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Login</Text>
@@ -85,7 +42,7 @@ const Login = ({ navigation }) => {
       />
       <View style={styles.buttonContainer}>
         <RegisterButton style={styles.button}/>
-        <TouchableOpacity style={styles.button} onPress={handleLogin}>
+        <TouchableOpacity style={styles.button} onPress={() =>useAuth().signIn(username, password)}>
           <Text style={styles.text}>Login</Text>
         </TouchableOpacity>
       </View>
